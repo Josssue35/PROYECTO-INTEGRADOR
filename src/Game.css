@@ -1,12 +1,21 @@
 .game-container {
-  width: 80%;
+  width: 400px;
+  height: 300px;
   margin: 40px auto;
-  padding: 20px;
+  text-align: center;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
-.game-container button {
+.key-container {
+  margin: 20px auto;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #CCCCCC;
+  background-color: #F7F7F7;
+}
+
+button {
   font-size: 24px;
   padding: 10px;
   margin-top: 20px;
@@ -17,18 +26,13 @@
   cursor: pointer;
 }
 
-.game-container button:hover {
+button:hover {
   background-color: #333;
 }
 
-.game-container p {
-  font-size: 18px;
-  color: #CCCCCC;
-  margin-bottom: 10px;
-}
-
-.game-container p:first-child {
-  font-size: 24px;
-  font-weight: bold;
-  box-shadow: 0 0 10px #FFFFFF;
+.highlight {
+  background-color: #FFFF00;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #CCCCCC;
 }
