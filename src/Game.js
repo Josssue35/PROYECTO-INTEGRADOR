@@ -12,15 +12,21 @@ const Game = () => {
   const [timeLeft, setTimeLeft] = useState(30);
   const [gameStarted, setGameStarted] = useState(false);
 
+  const getRandomKey = () => {
+    const keys = 'abcdefghijklmnopqrstuvwxyz0123456789';
+    return keys.charAt(Math.floor(Math.random() * keys.length));
+  };
+
   const initializeGame = useCallback(() => {
-    setInputType(Math.random() < 0.5 ? 'keyboard' : 'mouse');
+    const newInputType = Math.random() < 0.5 ? 'keyboard' : 'mouse';
+    setInputType(newInputType);
     setClicks(0);
     setTarget(Math.floor(Math.random() * 20) + 20);
     setAttempts(3);
-    if (inputType === 'keyboard') {
+    if (newInputType === 'keyboard') {
       setKeyToPress(getRandomKey());
     }
-  }, [inputType]);
+  }, []);
 
   useEffect(() => {
     if (gameStarted) {
@@ -33,16 +39,15 @@ const Game = () => {
     if (timeLeft > 0 && gameStarted) {
       timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
     } else if (timeLeft === 0 && gameStarted) {
-      alert(`Tu resultado es: ${score}. ¿Quieres jugar de nuevo?`);
       setGameStarted(false);
+      setTimeLeft(15);
+      setScore(0);
+      setClicks(0);
+      setAttempts(3);
+      setTimeout(() => setGameStarted(true), 1000);
     }
     return () => clearTimeout(timer);
-  }, [timeLeft, gameStarted, score]);
-
-  const getRandomKey = () => {
-    const keys = 'abcdefghijklmnopqrstuvwxyz0123456789';
-    return keys.charAt(Math.floor(Math.random() * keys.length));
-  };
+  }, [timeLeft, gameStarted]);
 
   useEffect(() => {
     const handleKeyPress = (e) => {
@@ -83,20 +88,25 @@ const Game = () => {
   if (!gameStarted) {
     return (
       <div className="game-container">
+        <img src={`${process.env.PUBLIC_URL}/clickalm.png`} alt="Clickalm" style={{ width: '800px' }} />
         <button onClick={() => setGameStarted(true)}>Iniciar Juego</button>
       </div>
     );
   }
 
   return (
-    <div className="game-container" onClick={inputType === 'mouse' ? handleMouseClick : null}>
-      <h1>Chao Es3</h1>
+    <div className="game-container">
+      <h1>Clickalm</h1>
       <div className="instruction-container">
         <p className="instruction">
           APLASTA: <span className="input-type">{inputType === 'keyboard' ? `Tecla "${keyToPress}"` : 'Mouse'}</span>
         </p>
       </div>
-      <div className={`display-screen ${highlight ? 'highlight' : ''}`}></div>
+      <div
+        className={`display-screen ${highlight ? 'highlight' : ''}`}
+        onClick={handleMouseClick}
+      >
+      </div>
       <div className="stats">
         <div className="stat">
           <p>Tiempo Restante: <span>{timeLeft}</span></p>
@@ -108,13 +118,15 @@ const Game = () => {
           <p>Puntaje: <span>{score}</span></p>
         </div>
       </div>
-      {attempts === 0 && <button onClick={() => {
-        alert(`Juego terminado! Tu puntaje total es ${score}.`);
-        setGameStarted(false);
-        setAttempts(3);
-        setScore(0);
-        setTimeLeft(15);
-      }}>Guardar Puntaje</button>}
+      {attempts === 0 && (
+        <button onClick={() => {
+          alert(`¡Juego terminado! Tu puntaje total es ${score}.`);
+          setGameStarted(false);
+          setAttempts(3);
+          setScore(0);
+          setTimeLeft(30);
+        }}>Guardar Puntaje</button>
+      )}
     </div>
   );
 };
