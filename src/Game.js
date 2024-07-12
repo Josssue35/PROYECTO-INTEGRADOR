@@ -9,8 +9,9 @@ const Game = () => {
   const [inputType, setInputType] = useState(Math.random() < 0.5 ? 'keyboard' : 'mouse');
   const [keyToPress, setKeyToPress] = useState('');
   const [highlight, setHighlight] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(30);
+  const [timeLeft, setTimeLeft] = useState(15);
   const [gameStarted, setGameStarted] = useState(false);
+  const [gameEnded, setGameEnded] = useState(false);
 
   const getRandomKey = () => {
     const keys = 'abcdefghijklmnopqrstuvwxyz0123456789';
@@ -26,7 +27,15 @@ const Game = () => {
     if (newInputType === 'keyboard') {
       setKeyToPress(getRandomKey());
     }
+    setTimeLeft(15);
   }, []);
+
+  const startNewGame = useCallback(() => {
+    setScore(0);
+    setGameEnded(false);
+    setGameStarted(true);
+    initializeGame();
+  }, [initializeGame]);
 
   useEffect(() => {
     if (gameStarted) {
@@ -40,11 +49,7 @@ const Game = () => {
       timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
     } else if (timeLeft === 0 && gameStarted) {
       setGameStarted(false);
-      setTimeLeft(15);
-      setScore(0);
-      setClicks(0);
-      setAttempts(3);
-      setTimeout(() => setGameStarted(true), 1000);
+      setGameEnded(true);
     }
     return () => clearTimeout(timer);
   }, [timeLeft, gameStarted]);
@@ -85,11 +90,21 @@ const Game = () => {
     }
   }, [clicks, inputType, target, initializeGame, gameStarted]);
 
-  if (!gameStarted) {
+  if (!gameStarted && !gameEnded) {
     return (
       <div className="game-container">
         <img src={`${process.env.PUBLIC_URL}/clickalm.png`} alt="Clickalm" style={{ width: '800px' }} />
-        <button onClick={() => setGameStarted(true)}>Iniciar Juego</button>
+        <button onClick={startNewGame}>Iniciar Juego</button>
+      </div>
+    );
+  }
+
+  if (gameEnded) {
+    return (
+      <div className="game-container">
+        <h1>¡Juego terminado!</h1>
+        <p>Tu puntaje total es {score}.</p>
+        <button onClick={startNewGame}>Iniciar Nueva Partida</button>
       </div>
     );
   }
@@ -117,14 +132,14 @@ const Game = () => {
         <div className="stat">
           <p>Puntaje: <span>{score}</span></p>
         </div>
+        <div className="stat">
+          <p>Clics Restantes: <span>{target - clicks}</span></p>
+        </div>
       </div>
       {attempts === 0 && (
         <button onClick={() => {
-          alert(`¡Juego terminado! Tu puntaje total es ${score}.`);
           setGameStarted(false);
-          setAttempts(3);
-          setScore(0);
-          setTimeLeft(30);
+          setGameEnded(true);
         }}>Guardar Puntaje</button>
       )}
     </div>
