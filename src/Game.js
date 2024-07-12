@@ -9,7 +9,7 @@ const Game = () => {
   const [inputType, setInputType] = useState(Math.random() < 0.5 ? 'keyboard' : 'mouse');
   const [keyToPress, setKeyToPress] = useState('');
   const [highlight, setHighlight] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(15);
+  const [timeLeft, setTimeLeft] = useState(30);
   const [gameStarted, setGameStarted] = useState(false);
 
   const initializeGame = useCallback(() => {
@@ -40,7 +40,7 @@ const Game = () => {
   }, [timeLeft, gameStarted, score]);
 
   const getRandomKey = () => {
-    const keys = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const keys = 'abcdefghijklmnopqrstuvwxyz0123456789';
     return keys.charAt(Math.floor(Math.random() * keys.length));
   };
 
