@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import './Game.css';
 
 const Game = () => {
+  // Declaración de estados usando useState
   const [score, setScore] = useState(0);
   const [clicks, setClicks] = useState(0);
   const [target, setTarget] = useState(Math.floor(Math.random() * 20) + 20);
@@ -37,12 +38,15 @@ const Game = () => {
     initializeGame();
   }, [initializeGame]);
 
+  //Este useEffect se ejecuta cada vez que gameStarted cambia. Si el juego ha comenzado, llama a initializeGame.
   useEffect(() => {
     if (gameStarted) {
       initializeGame();
     }
   }, [gameStarted, initializeGame]);
 
+  //Este useEffect maneja el temporizador del juego. Cada segundo decrementa timeLeft si el juego está activo.
+  //Cuando el tiempo llega a 0, el juego se detiene (sin reiniciar automáticamente).
   useEffect(() => {
     let timer = null;
     if (timeLeft > 0 && gameStarted) {
@@ -53,7 +57,8 @@ const Game = () => {
     }
     return () => clearTimeout(timer);
   }, [timeLeft, gameStarted]);
-
+  //Este useEffect añade un event listener para manejar las pulsaciones de teclas si el tipo de entrada es teclado y el juego ha comenzado.
+  //Si se presiona la tecla correcta, incrementa los clics y, si se alcanza el objetivo, incrementa el puntaje y reinicia el juego.
   useEffect(() => {
     const handleKeyPress = (e) => {
       if (inputType === 'keyboard' && e.key === keyToPress && gameStarted) {
@@ -78,6 +83,7 @@ const Game = () => {
     };
   }, [clicks, inputType, keyToPress, target, initializeGame, gameStarted]);
 
+  //Similar a handleKeyPress, esta función maneja los clics del ratón si el tipo de entrada es ratón y el juego ha comenzado.
   const handleMouseClick = useCallback(() => {
     if (inputType === 'mouse' && gameStarted) {
       setHighlight(true);
@@ -89,7 +95,7 @@ const Game = () => {
       }
     }
   }, [clicks, inputType, target, initializeGame, gameStarted]);
-
+  //Condicion de juego sin iniciar y finalizado
   if (!gameStarted && !gameEnded) {
     return (
       <div className="game-container">
