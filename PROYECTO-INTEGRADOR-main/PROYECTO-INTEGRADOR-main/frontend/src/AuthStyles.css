@@ -1,0 +1,114 @@
+:root {
+    --primary-color: #ff416c; /* Rojo */
+    --secondary-color: #900c3f; /* Rojo oscuro */
+    --background-color: #0c0c0c; /* Negro */
+    --text-color: #ffffff; /* Blanco */
+    --font-family: 'Arial', sans-serif; /* Fuente */
+  }
+  
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-family);
+    background-color: var(--background-color);
+    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+  }
+  
+  .auth-container {
+    display: flex;
+    width: 80%; /* Ajusta según necesidades */
+    height: 60%; /* Ajusta según necesidades */
+    align-items: center; /* Centra verticalmente */
+  }
+  
+  .logo-container {
+    width: 60%; /* 60% del contenedor total para el logo */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .form-container {
+    width: 40%; /* 40% del contenedor total para el formulario */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 20px;
+  }
+  
+  .auth-container img {
+    width: 100%; /* Ajusta este valor para controlar el tamaño de la imagen */
+    height: auto;
+  }
+  
+  input, button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: none;
+    font-size: 16px;
+  }
+  
+  button {
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  button:hover {
+    background-color: #ff6384; /* Rojo más claro para hover */
+  }
+  
+  button:nth-of-type(2) {
+    background-color: var(--secondary-color); /* Rojo oscuro para el segundo botón */
+  }
+  
+  button:nth-of-type(2):hover {
+    background-color: #c70039; /* Rojo más claro para hover del segundo botón */
+  }
+  
+  .scores-container {
+    text-align: center;
+    color: var(--text-color); /* Asume que tienes definido --text-color en el :root */
+    font-family: 'Arial', sans-serif;
+    background-color: var(--background-color); /* Asume que tienes definido --background-color */
+  }
+  
+  .scores-logo {
+    width: 300px; /* Tamaño del logo */
+    margin: 0 auto; /* Centrar el logo */
+    display: block;
+  }
+  
+  .score-item {
+    background-color: #16213e; /* Fondo oscuro para cada item */
+    color: #ffffff;
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    max-width: 600px; /* Ajusta el ancho máximo según necesidades */
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .username, .points {
+    font-size: 1.2rem; /* Tamaño de letra para usuario y puntos */
+  }
+  
+  .username {
+    font-weight: bold; /* Hacer el nombre de usuario más prominente */
+  }
+  
+  .points {
+    font-weight: lighter;
+  }
+  
