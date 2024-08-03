@@ -1,35 +1,29 @@
 import React, { useState } from 'react';
 import './Pop.css';
-import popSound from './Pop.mp3'; // Asegúrate de tener el archivo Pop.mp3 en la carpeta src
+import popSound from './Pop.mp3';
 
 const Pop = () => {
     const [clickedCircles, setClickedCircles] = useState(Array(20).fill(false));
 
     const handleClick = index => {
-        const newClickedCircles = [...clickedCircles];
-        newClickedCircles[index] = !newClickedCircles[index];
-        setClickedCircles(newClickedCircles);
+        setClickedCircles(prev => {
+            const newClickedCircles = [...prev];
+            newClickedCircles[index] = !newClickedCircles[index];
+            return newClickedCircles;
+        });
 
-        const sound = new Audio(popSound);
-        sound.play();
+        new Audio(popSound).play();
     };
 
     return (
         <div className="container">
             <div className="PopIt">
-                {[...Array(4)].map((_, rowIndex) => (
-                    <div className="row" key={rowIndex}>
-                        {[...Array(5)].map((_, circleIndex) => {
-                            const index = rowIndex * 5 + circleIndex;
-                            return (
-                                <div
-                                    key={index}
-                                    className={`circle ${clickedCircles[index] ? 'clicked' : ''}`}
-                                    onClick={() => handleClick(index)}
-                                ></div>
-                            );
-                        })}
-                    </div>
+                {clickedCircles.map((clicked, index) => (
+                    <div
+                        key={index}
+                        className={`circle ${clicked ? 'clicked' : ''}`}
+                        onClick={() => handleClick(index)}
+                    ></div>
                 ))}
             </div>
         </div>

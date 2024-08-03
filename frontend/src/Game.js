@@ -2,7 +2,6 @@ import React, { useState, useEffect, useCallback } from 'react';
 import './Game.css';
 
 const Game = () => {
-  // Declaración de estados usando useState
   const [score, setScore] = useState(0);
   const [clicks, setClicks] = useState(0);
   const [target, setTarget] = useState(Math.floor(Math.random() * 20) + 20);
@@ -13,6 +12,9 @@ const Game = () => {
   const [timeLeft, setTimeLeft] = useState(15);
   const [gameStarted, setGameStarted] = useState(false);
   const [gameEnded, setGameEnded] = useState(false);
+
+  // ID del usuario (puedes cambiar esto según cómo obtienes el ID del usuario en tu aplicación)
+  const userId = 11; // Cambia esto al ID real del usuario
 
   const getRandomKey = () => {
     const keys = 'abcdefghijklmnopqrstuvwxyz0123456789';
@@ -38,15 +40,12 @@ const Game = () => {
     initializeGame();
   }, [initializeGame]);
 
-  //Este useEffect se ejecuta cada vez que gameStarted cambia. Si el juego ha comenzado, llama a initializeGame.
   useEffect(() => {
     if (gameStarted) {
       initializeGame();
     }
   }, [gameStarted, initializeGame]);
 
-  //Este useEffect maneja el temporizador del juego. Cada segundo decrementa timeLeft si el juego está activo.
-  //Cuando el tiempo llega a 0, el juego se detiene (sin reiniciar automáticamente).
   useEffect(() => {
     let timer = null;
     if (timeLeft > 0 && gameStarted) {
@@ -57,8 +56,7 @@ const Game = () => {
     }
     return () => clearTimeout(timer);
   }, [timeLeft, gameStarted]);
-  //Este useEffect añade un event listener para manejar las pulsaciones de teclas si el tipo de entrada es teclado y el juego ha comenzado.
-  //Si se presiona la tecla correcta, incrementa los clics y, si se alcanza el objetivo, incrementa el puntaje y reinicia el juego.
+
   useEffect(() => {
     const handleKeyPress = (e) => {
       if (inputType === 'keyboard' && e.key === keyToPress && gameStarted) {
@@ -83,7 +81,6 @@ const Game = () => {
     };
   }, [clicks, inputType, keyToPress, target, initializeGame, gameStarted]);
 
-  //Similar a handleKeyPress, esta función maneja los clics del ratón si el tipo de entrada es ratón y el juego ha comenzado.
   const handleMouseClick = useCallback(() => {
     if (inputType === 'mouse' && gameStarted) {
       setHighlight(true);
@@ -95,7 +92,28 @@ const Game = () => {
       }
     }
   }, [clicks, inputType, target, initializeGame, gameStarted]);
-  //Condicion de juego sin iniciar y finalizado
+  const saveScore = async () => {
+    try {
+      const response = await fetch('http://localhost:3000/api/scores', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          user_id: userId, // Usa el ID del usuario del contexto
+          points: score,
+        }),
+      });
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.json();
+      console.log('Score saved:', data);
+    } catch (error) {
+      console.error('Error saving score:', error);
+    }
+  };
+
   if (!gameStarted && !gameEnded) {
     return (
       <div className="game-container">
@@ -111,6 +129,7 @@ const Game = () => {
         <h1>¡Juego terminado!</h1>
         <p>Tu puntaje total es {score}.</p>
         <button onClick={startNewGame}>Iniciar Nueva Partida</button>
+        <button onClick={saveScore}>Guardar Puntaje</button>
       </div>
     );
   }
@@ -142,12 +161,6 @@ const Game = () => {
           <p>Clics Restantes: <span>{target - clicks}</span></p>
         </div>
       </div>
-      {attempts === 0 && (
-        <button onClick={() => {
-          setGameStarted(false);
-          setGameEnded(true);
-        }}>Guardar Puntaje</button>
-      )}
     </div>
   );
 };
