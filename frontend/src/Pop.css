@@ -4,7 +4,7 @@
 }
 
 body {
-    background: linear-gradient(15deg, #00ffff, #004680);
+    background-color: var(--background-color);
     background-position: cover;
     background-repeat: no-repeat;
     overflow: hidden;
