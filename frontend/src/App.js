@@ -4,6 +4,8 @@ import Game from './Game';
 import Login from './Login';
 import Register from './Register';
 import Scores from './Scores';
+import GamePage from './GamePage';
+import Pop from './Pop';
 
 function App() {
   return (
@@ -14,6 +16,8 @@ function App() {
           <Route path="/game" element={<Game />} />
           <Route path="/register" element={<Register />} />
           <Route path="/scores" element={<Scores />} />
+          <Route path="/main" element={<GamePage />} />
+          <Route path="/pop" element={<Pop />} />
         </Routes>
       </div>
     </Router>
