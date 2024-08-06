@@ -1,0 +1,45 @@
+/* Navbar.css */
+.navbar {
+    display: flex;
+    justify-content: center;
+
+    align-items: center;
+    padding: 10px 20px;
+    background-color: rgba(91, 91, 91, 0.131);
+
+    color: #fff;
+    /* Color del texto */
+    position: fixed;
+    width: 100%;
+    top: 10px;
+    z-index: 1000;
+    border-radius: 50px;
+}
+
+.navbar-logo {
+    position: absolute;
+    left: 20px;
+    /* Ajusta la posición del logo a la izquierda */
+}
+
+.logo {
+    height: 80px;
+    /* Ajusta el tamaño del logo según tu necesidad */
+}
+
+.navbar-links {
+    display: flex;
+    gap: 20px;
+}
+
+.nav-link {
+    color: #fff;
+    text-decoration: none;
+    font-size: 18px;
+    transition: color 0.3s;
+}
+
+.nav-link:hover {
+    color: #ff4a4a;
+    /* Cambia el color del texto al pasar el ratón sobre el enlace */
+}

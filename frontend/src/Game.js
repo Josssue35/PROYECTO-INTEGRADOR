@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import './Game.css';
+import Navbar from './NavBar'; // Asegúrate de ajustar la ruta si es diferente
 
 const Game = () => {
   const [score, setScore] = useState(0);
@@ -92,6 +93,7 @@ const Game = () => {
       }
     }
   }, [clicks, inputType, target, initializeGame, gameStarted]);
+
   const saveScore = async () => {
     try {
       const response = await fetch('http://localhost:3000/api/scores', {
@@ -117,6 +119,7 @@ const Game = () => {
   if (!gameStarted && !gameEnded) {
     return (
       <div className="game-container">
+        <Navbar /> {/* Añade el Navbar aquí */}
         <img src={`${process.env.PUBLIC_URL}/clickalm.png`} alt="Clickalm" style={{ width: '800px' }} />
         <button onClick={startNewGame}>Iniciar Juego</button>
       </div>
@@ -126,6 +129,7 @@ const Game = () => {
   if (gameEnded) {
     return (
       <div className="game-container">
+        <Navbar /> {/* Añade el Navbar aquí */}
         <h1>¡Juego terminado!</h1>
         <p>Tu puntaje total es {score}.</p>
         <button onClick={startNewGame}>Iniciar Nueva Partida</button>
@@ -136,6 +140,7 @@ const Game = () => {
 
   return (
     <div className="game-container">
+      <Navbar /> {/* Añade el Navbar aquí */}
       <h1>Clickalm</h1>
       <div className="instruction-container">
         <p className="instruction">
