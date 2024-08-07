@@ -1,20 +1,17 @@
-* {
-    margin: 0;
-    padding: 0;
-}
+@keyframes bubbleRise {
+    0% {
+        bottom: -150px;
+        opacity: 1;
+    }
 
-body {
-    background-color: var(--background-color);
-    background-position: cover;
-    background-repeat: no-repeat;
-    overflow: hidden;
-    width: 100vw;
-    height: 100vh;
+    100% {
+        bottom: 100vh;
+        opacity: 0;
+    }
 }
 
 .bubble {
     position: absolute;
-    top: 100vh;
     width: 150px;
     height: 150px;
     background-size: cover;
@@ -22,120 +19,65 @@ body {
     background-repeat: no-repeat;
     border-radius: 50%;
     box-shadow: inset 0 0 10px #fff, inset -10px 10px 15px #020131,
-        inset 5px 5px 10px #960101, inset -5px 5px 20px #fff,
-        inset 15px -25px 20px #9224ed;
+        inset 5px 5px 10px #012196, inset -5px 5px 20px #fff,
+        inset 15px -25px 20px #24bbed;
+    pointer-events: all;
+    animation: bubbleRise 5s linear forwards;
 }
 
-.bubble-two {
-    box-shadow: inset 0 0 10px #fff, inset -10px 10px 15px #06f3df,
-        inset 5px 5px 10px #f8e63e, inset -5px 5px 20px #fff,
-        inset 15px -25px 20px #ed24aa;
-}
-
-.bubble-three {
-    box-shadow: inset 0 0 10px #010631, inset -10px 10px 15px #1512f3,
-        inset 5px 5px 10px #80036b, inset -5px 5px 20px #fff,
-        inset 15px -25px 20px #33114e;
-}
-
-.bubble-four {
-    box-shadow: inset 0 0 10px #8b0101, inset -10px 10px 15px #f6f6fc,
-        inset 5px 5px 10px #81f733, inset -5px 5px 20px #fff,
-        inset 15px -25px 20px #0b0822;
-}
-
-.bubble-five {
-    box-shadow: inset 0 0 10px #fff, inset -10px 10px 15px #100dee,
-        inset 5px 5px 10px #f7a120, inset -5px 5px 20px #fff,
-        inset 15px -25px 20px #ed24c1;
-}
-
-.score-board {
-    background: #fff;
-    width: 300px;
-    height: 80px;
+.message-container {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    border-radius: 20px 20px 0 0;
     position: absolute;
-    bottom: 0;
-    left: calc(50% - 150px);
-    color: black;
-    z-index: 1;
-}
-
-.shadow {
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.6);
-    display: none;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-    position: fixed;
-    top: 0;
-    left: 0;
-}
-
-.wrapper {
-    text-align: center;
-    background: white;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.8);
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    /* Asegura que esté por encima de otras cosas */
 }
 
-.winner,
-.loser {
-    display: none;
+.message {
+    color: #fff;
+    font-size: 24px;
+    margin-bottom: 10px;
 }
 
-.winner {
-    display: block;
+/* Resto del CSS */
+button.start-btn {
+    font-size: 20px;
+    border: none;
+    border-radius: 30px;
+    font-weight: bold;
+    height: 40px;
+    width: 150px;
+    margin: 8px auto;
+    cursor: pointer;
+    background-color: #007bff;
+    color: #fff;
+    z-index: 1001;
+    /* Asegura que esté clickeable */
 }
 
-.loser {
-    display: block;
-    color: black;
+.bubble-container {
+    position: relative;
+    width: 100vw;
+    height: 80vh;
+    /* Ajusta la altura si es necesario */
+    overflow: hidden;
+    /* Asegura que las burbujas no se salgan del contenedor */
 }
 
-.main-game {
+.game-container {
     width: 100vw;
     height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    position: relative;
 }
 
-button.start-btn {
-    padding: 10px 20px;
-    font-size: 16px;
-    border: none;
-    border-radius: 5px;
-    background: #007bff;
-    color: white;
-    cursor: pointer;
-}
-
-button.restart {
-    padding: 10px 20px;
-    font-size: 16px;
-    border: none;
-    border-radius: 5px;
-    background: #28a745;
-    color: white;
-    cursor: pointer;
-}
-
-button.cancel {
-    padding: 10px 20px;
-    font-size: 16px;
-    border: none;
-    border-radius: 5px;
-    background: #dc3545;
-    color: white;
-    cursor: pointer;
-}
+/* Mismos estilos anteriores */

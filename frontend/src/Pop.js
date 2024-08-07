@@ -1,129 +1,116 @@
-import React, { useState, useEffect, useRef } from 'react';
-import './Pop.css'; // Asegúrate de crear este archivo CSS
-
-const bubbles = ['one', 'two', 'three', 'four', 'five'];
-const total = 50;
+import React, { useState, useEffect } from 'react';
+import './Pop.css';
 
 const Pop = () => {
-    const [noPop, setNoPop] = useState(0);
+    const [bubbles, setBubbles] = useState([]);
+    const [score, setScore] = useState(0);
     const [gameOver, setGameOver] = useState(false);
-    const [isWinner, setIsWinner] = useState(false);
-    const [bubblesList, setBubblesList] = useState([]);
-    const windowWidth = useRef(window.innerWidth);
-    const windowHeight = useRef(window.innerHeight);
-    const shadowRef = useRef(null);
-    const bubbleCreationInterval = useRef(null);
+    const [gameWon, setGameWon] = useState(false);
+    const [bubblesPressed, setBubblesPressed] = useState(0);
+
+    // Crear una nueva burbuja
+    const createBubble = () => {
+        const bubbleWidth = 150; // Ancho de la burbuja
+        const screenWidth = window.innerWidth;
+        const maxX = screenWidth - bubbleWidth;
+
+        // Asigna una clase aleatoria entre las burbujas disponibles
+        const bubbleClass = `bubble-${Math.ceil(Math.random() * 5)}`;
+
+        const bubble = {
+            id: Date.now(),
+            x: Math.random() * maxX, // Genera una posición dentro del ancho de la pantalla
+            y: -150,
+            className: bubbleClass
+        };
+        setBubbles((prevBubbles) => [...prevBubbles, bubble]);
+    };
 
     useEffect(() => {
-        if (gameOver) {
-            if (bubbleCreationInterval.current) {
-                clearInterval(bubbleCreationInterval.current);
-            }
-            setIsWinner(noPop >= total);
-            shadowRef.current.style.display = 'flex';
-        }
-    }, [gameOver, noPop]);
-
-    const createBubble = () => {
-        const rand = Math.floor(Math.random() * bubbles.length);
-        const left = Math.floor(Math.random() * (windowWidth.current - 150));
-        const newBubble = {
-            id: Date.now(),
-            className: 'bubble bubble-' + bubbles[rand],
-            style: { left: `${left}px`, top: `${windowHeight.current}px` }
-        };
-        setBubblesList((prevBubbles) => [...prevBubbles, newBubble]);
-        animateBubble(newBubble.id);
-    };
-
-    const animateBubble = (id) => {
-        let position = 0;
-        const interval = setInterval(() => {
-            if (position >= (windowHeight.current + 150)) {
-                clearInterval(interval);
-                setBubblesList((prevBubbles) => prevBubbles.filter(bubble => bubble.id !== id));
-                setGameOver(true);
-            } else {
-                position++;
-                setBubblesList((prevBubbles) =>
-                    prevBubbles.map(bubble =>
-                        bubble.id === id ? { ...bubble, style: { ...bubble.style, top: `${windowHeight.current - position}px` } } : bubble
-                    )
+        if (!gameOver && !gameWon) {
+            const bubbleInterval = setInterval(createBubble, 1000);
+            const moveInterval = setInterval(() => {
+                setBubbles((prevBubbles) =>
+                    prevBubbles.map((bubble) => ({ ...bubble, y: bubble.y + 5 }))
                 );
-            }
-        }, 12 - Math.floor(noPop / 10) + Math.floor(Math.random() * 6 - 3));
-    };
+            }, 50);
 
-    const deleteBubble = (id) => {
-        setBubblesList((prevBubbles) => prevBubbles.filter(bubble => bubble.id !== id));
-        setNoPop((prevNoPop) => prevNoPop + 1);
-        if (noPop + 1 >= total) {
-            setGameOver(true);
+            return () => {
+                clearInterval(bubbleInterval);
+                clearInterval(moveInterval);
+            };
         }
-    };
+    }, [gameOver, gameWon]);
 
-    const startGame = () => {
-        // Ocultar la sección de inicio y mostrar el juego
-        document.querySelector('.main-game').style.display = 'none';
-        shadowRef.current.style.display = 'none';
-        setBubblesList([]);
-        setNoPop(0);
-        setGameOver(false);
-        bubbleCreationInterval.current = setInterval(() => {
-            if (!gameOver && noPop < total) {
-                createBubble();
+    useEffect(() => {
+        bubbles.forEach((bubble) => {
+            const bubbleElement = document.getElementById(`bubble-${bubble.id}`);
+            if (bubbleElement) {
+                const { bottom, left, width } = bubbleElement.getBoundingClientRect();
+                if (bottom < 0 || left < 0 || (left + width) > window.innerWidth) { // La burbuja se ha escapado de la pantalla
+                    setGameOver(true);
+                    setBubbles([]);
+                }
             }
-        }, 800 + Math.floor(Math.random() * 600 - 100));
+        });
+    }, [bubbles]);
+
+    // Reproducir sonido al hacer clic en una burbuja
+    const playSound = () => {
+        const sound = new Audio('/pop-sound.mp3');
+        sound.play();
     };
 
-    const restartGame = () => {
-        if (bubbleCreationInterval.current) {
-            clearInterval(bubbleCreationInterval.current);
-        }
-        setBubblesList([]);
-        setNoPop(0);
+    const handleBubbleClick = (id) => {
+        playSound();
+        setBubbles((prevBubbles) => prevBubbles.filter((bubble) => bubble.id !== id));
+        setScore((prevScore) => {
+            const newScore = prevScore + 1;
+            if (newScore >= 50) {
+                setGameWon(true);
+            }
+            return newScore;
+        });
+        setBubblesPressed((prevCount) => prevCount + 1);
+    };
+
+    const resetGame = () => {
+        setBubbles([]);
+        setScore(0);
         setGameOver(false);
-        shadowRef.current.style.display = 'none';
-        document.querySelector('.main-game').style.display = 'flex'; // Volver a mostrar la sección de inicio
+        setGameWon(false);
+        setBubblesPressed(0);
     };
 
     return (
-        <div>
-            <div className="score-board">
-                <p>You Popped <span className="score">{noPop}</span> Bubbles</p>
-            </div>
-            <div className="shadow" ref={shadowRef}>
-                {isWinner ? (
-                    <div className="wrapper winner">
-                        <h4>Congratulations</h4>
-                        <h4>You Popped all 50 bubbles</h4>
-                        <p>You are a Winner!</p>
-                        <button onClick={restartGame} className="restart">Play Again</button>
-                    </div>
-                ) : (
-                    <div className="wrapper loser">
-                        <h4>Sorry</h4>
-                        <h4>You Popped <span className="score">{noPop}</span> Bubbles</h4>
-                        <p>Play Again?</p>
-                        <button onClick={restartGame} className="restart">Play Again</button>
-                        <button onClick={() => shadowRef.current.style.display = 'none'} className="cancel">Cancel</button>
-                    </div>
-                )}
-            </div>
-            <div className="main-game" style={{ display: gameOver ? 'none' : 'flex' }}>
-                <div style={{ textAlign: 'center' }}>
-                    <h2>Ready to Start</h2>
-                    <button onClick={startGame} className="start-btn">Start</button>
+        <div className="game-container">
+            <h1>PopIt</h1>
+            <p>Puntaje: {score}</p>
+            {gameOver && (
+                <div className="message-container">
+                    <p className="message">Se te escapo una burbuja!</p>
+                    <p className="message">Burbujas explotadas: {bubblesPressed}</p>
+                    <button className="start-btn" onClick={resetGame}>Reiniciar</button>
                 </div>
+            )}
+            {gameWon && (
+                <div className="message-container">
+                    <p className="message">Has ganado!</p>
+                    <p className="message">Burbujas explotadas: {bubblesPressed}</p>
+                    <button className="start-btn" onClick={resetGame}>Reiniciar</button>
+                </div>
+            )}
+            <div className="bubble-container">
+                {bubbles.map((bubble) => (
+                    <div
+                        key={bubble.id}
+                        id={`bubble-${bubble.id}`}
+                        className={`bubble ${bubble.className}`}
+                        style={{ left: `${bubble.x}px`, bottom: `${bubble.y}px` }}
+                        onClick={() => handleBubbleClick(bubble.id)}
+                    ></div>
+                ))}
             </div>
-            {bubblesList.map((bubble) => (
-                <div
-                    key={bubble.id}
-                    className={bubble.className}
-                    style={bubble.style}
-                    onClick={() => deleteBubble(bubble.id)}
-                />
-            ))}
         </div>
     );
 };
