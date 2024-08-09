@@ -20,7 +20,7 @@ const Login = () => {
       const userData = await response.json();
       if (response.status === 200) {
         console.log('Login successful:', userData);
-        navigate('/game');  // Reemplaza history.push con navigate
+        navigate('/main');  // Reemplaza history.push con navigate
       } else {
         alert('Username or password incorrect.');
       }

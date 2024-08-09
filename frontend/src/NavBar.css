@@ -2,34 +2,36 @@
 .navbar {
     display: flex;
     justify-content: center;
-
     align-items: center;
-    padding: 10px 20px;
-    background-color: rgba(91, 91, 91, 0.131);
-
+    padding: 15px 30px;
+    background-color: rgba(47, 50, 60, 0.241);
     color: #fff;
-    /* Color del texto */
     position: fixed;
     width: 100%;
-    top: 10px;
+    top: 0;
     z-index: 1000;
-    border-radius: 50px;
+    border-radius: 0;
+    /* Remueve el borde redondeado para hacerla rectangular */
+    box-sizing: border-box;
+    /* Asegura que el padding no afecte el ancho total */
 }
 
 .navbar-logo {
     position: absolute;
     left: 20px;
-    /* Ajusta la posición del logo a la izquierda */
+    top: 50%;
+    transform: translateY(-50%);
+    /* Centra verticalmente el logo */
 }
 
 .logo {
-    height: 80px;
-    /* Ajusta el tamaño del logo según tu necesidad */
+    height: 50px;
+    /* Ajusta el tamaño del logo */
 }
 
 .navbar-links {
     display: flex;
-    gap: 20px;
+    gap: 30px;
 }
 
 .nav-link {

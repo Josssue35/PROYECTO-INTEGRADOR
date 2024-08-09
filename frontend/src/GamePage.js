@@ -3,12 +3,13 @@ import { Link } from 'react-router-dom';
 import './GamePage.css';
 import ParticlesComponent from './particles';
 
+
 const GamePage = () => {
     return (
         <div className="app">
             <ParticlesComponent />
             <div className="content">
-                <h1 className="title">Game Page</h1>
+                <h1 className="title">KeepCalm Games</h1>
                 <div className="image-gallery">
                     <div className="image-wrapper">
                         <Link to="/game">
@@ -22,7 +23,7 @@ const GamePage = () => {
                     </div>
                 </div>
             </div>
-            <div className="footer">@Clickalm</div>
+            <div className="footer">@KeepCalm</div>
         </div>
     );
 };

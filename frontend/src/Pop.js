@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './Pop.css';
+import Navbar from './NavBar';
 
 const Pop = () => {
     const [bubbles, setBubbles] = useState([]);
@@ -28,10 +29,10 @@ const Pop = () => {
 
     useEffect(() => {
         if (!gameOver && !gameWon) {
-            const bubbleInterval = setInterval(createBubble, 400); // Intervalo reducido para mayor dificultad
+            const bubbleInterval = setInterval(createBubble, 300); // Intervalo reducido para mayor dificultad
             const moveInterval = setInterval(() => {
                 setBubbles((prevBubbles) =>
-                    prevBubbles.map((bubble) => ({ ...bubble, y: bubble.y + 30 })) // Aumentar la velocidad
+                    prevBubbles.map((bubble) => ({ ...bubble, y: bubble.y + 80 })) // Aumentar la velocidad
                 );
             }, 50);
 
@@ -84,18 +85,19 @@ const Pop = () => {
 
     return (
         <div className="game-container">
+            <Navbar /> {/* Añade el Navbar aquí */}
             <h1>PopIt</h1>
             <p>Puntaje: {score}</p>
             {gameOver && (
                 <div className="message-container">
-                    <p className="message">Se escapo una burbuja!</p>
+                    <p className="message">Se escapó una burbuja!</p>
                     <p className="message">Burbujas explotadas: {bubblesPressed}</p>
                     <button className="start-btn" onClick={resetGame}>Reiniciar</button>
                 </div>
             )}
             {gameWon && (
                 <div className="message-container">
-                    <p className="message">Ganaste!</p>
+                    <p className="message">¡Ganaste!</p>
                     <p className="message">Burbujas explotadas: {bubblesPressed}</p>
                     <button className="start-btn" onClick={resetGame}>Reiniciar</button>
                 </div>
