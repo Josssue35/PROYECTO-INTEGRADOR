@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';  // Reemplaza useHistory con useNavigate
+import { useNavigate } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './AuthStyles.css';
 
 const Register = () => {
@@ -7,16 +9,25 @@ const Register = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const navigate = useNavigate();  // Usa useNavigate en lugar de useHistory
+  const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (password !== confirmPassword) {
-      alert('Passwords do not match.');
+      toast.warning('Las contraseñas no coinciden.', {
+        position: 'top-right',
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        className: 'custom-toast', // Clase personalizada
+        closeButton: false,
+        style: { borderLeft: '5px solid orange' }, // Color de la barra
+      });
       return;
     }
-
-    console.log('Registering with:', { username, email, password });
 
     try {
       const response = await fetch('http://localhost:3000/api/users/register', {
@@ -24,14 +35,24 @@ const Register = () => {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ username, email, password })  // Verifica los datos enviados
+        body: JSON.stringify({ username, email, password })
       });
       const data = await response.json();
       if (response.status === 201) {
-        console.log('Registration successful:', data);
-        navigate('/');  // Navega a la página principal después del registro exitoso
+        navigate('/');
       } else {
-        alert('Registration failed.');
+        toast.error('Registro incorrecto.', {
+          position: 'top-right',
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          className: 'custom-toast-error', // Clase personalizada para error
+          closeButton: false,
+          style: { borderLeft: '5px solid red' }, // Color de la barra para error
+        });
       }
     } catch (error) {
       console.error('Registration error:', error);
@@ -41,7 +62,7 @@ const Register = () => {
   return (
     <div className="auth-container">
       <div className="logo-container">
-        <img src={`${process.env.PUBLIC_URL}/clickalm.png`} alt="Clickalm" />
+        <img src={`${process.env.PUBLIC_URL}/Designer1.png`} alt="Clickalm" />
       </div>
       <div className="form-container">
         <form onSubmit={handleSubmit}>
@@ -70,9 +91,10 @@ const Register = () => {
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
           <button type="submit">Registrarse</button>
-          <button type="button" onClick={() => navigate('/')}>Ya tengo cuenta</button>  {/* Usa navigate en lugar de history.push */}
+          <button type="button" onClick={() => navigate('/')}>Ya tengo cuenta</button>
         </form>
       </div>
+      <ToastContainer />
     </div>
   );
 };
