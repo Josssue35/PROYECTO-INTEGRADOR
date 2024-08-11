@@ -45,3 +45,14 @@
     color: #ff4a4a;
     /* Cambia el color del texto al pasar el ratón sobre el enlace */
 }
+
+/* Estilo para el enlace visible solo para administradores */
+.admin-link {
+    color: #f8d7da;
+    /* Color distintivo para el enlace de admin */
+}
+
+.admin-link:hover {
+    color: #ff4a4a;
+    /* Cambia el color del texto al pasar el ratón sobre el enlace */
+}

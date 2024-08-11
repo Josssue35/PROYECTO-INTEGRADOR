@@ -2,11 +2,12 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import './GamePage.css';
 import ParticlesComponent from './particles';
-
+import NavBar from './NavBar'; // Asegúrate de ajustar la ruta si es diferente
 
 const GamePage = () => {
     return (
         <div className="app">
+            <NavBar /> {/* Agrega la barra de navegación aquí */}
             <ParticlesComponent />
             <div className="content">
                 <h1 className="title">KeepCalm Games</h1>

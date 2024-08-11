@@ -16,7 +16,8 @@ const Game = () => {
   const [gameStarted, setGameStarted] = useState(false);
   const [gameEnded, setGameEnded] = useState(false);
 
-  const userId = 11;
+  // Retrieve the user ID from local storage
+  const userId = localStorage.getItem('userId');
 
   const getRandomKey = () => {
     const keys = 'abcdefghijklmnopqrstuvwxyz0123456789';
