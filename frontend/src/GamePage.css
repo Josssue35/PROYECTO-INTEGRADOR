@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Bona+Nova:wght@400;700&display=swap');
+
 :root {
     --primary-color: #ff416c;
     --secondary-color: #900c3f;
@@ -29,7 +31,8 @@ body,
 .title {
     font-size: 3rem;
     margin-bottom: 40px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: "'Bona Nova', serif";
+    font-style: normal;
 }
 
 .image-gallery {

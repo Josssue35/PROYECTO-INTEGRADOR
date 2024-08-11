@@ -22,7 +22,7 @@ const ParticlesComponent = (props) => {
         () => ({
             background: {
                 color: {
-                    value: "#000000", // Fondo negro
+                    value: "#000",
                 },
             },
             fpsLimit: 120,
@@ -72,13 +72,13 @@ const ParticlesComponent = (props) => {
                     density: {
                         enable: true,
                     },
-                    value: 150,
+                    value: 200,
                 },
                 opacity: {
                     value: 1.0,
                 },
                 shape: {
-                    type: "circle",
+                    type: "star",
                 },
                 size: {
                     value: { min: 1, max: 3 },

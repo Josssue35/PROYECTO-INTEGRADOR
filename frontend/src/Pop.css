@@ -10,6 +10,8 @@
     }
 }
 
+
+
 .bubble {
     position: absolute;
     width: 150px;
@@ -33,7 +35,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(2, 4, 98, 0.405);
     padding: 20px;
     border-radius: 10px;
     z-index: 1000;

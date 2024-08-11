@@ -28,7 +28,11 @@ router.post('/login', async (req, res) => {
 
     const user = await findUser(username, password);
     if (user) {
-      res.json({ id: user.id, username: user.username }); // Devuelve el ID y el nombre de usuario del usuario autenticado
+      res.json({
+        id: user.id,
+        username: user.username,
+        role: user.role
+      });
     } else {
       res.status(401).json({ message: 'Invalid credentials' });
     }
@@ -37,5 +41,6 @@ router.post('/login', async (req, res) => {
     res.status(500).json({ message: 'Server error during login' });
   }
 });
+
 
 module.exports = router;

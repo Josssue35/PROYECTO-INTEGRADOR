@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './Pop.css';
+import Navbar from './NavBar';
 
 const Pop = () => {
     const [bubbles, setBubbles] = useState([]);
@@ -10,7 +11,7 @@ const Pop = () => {
 
     // Crear una nueva burbuja
     const createBubble = () => {
-        const bubbleWidth = 150; // Ancho de la burbuja
+        const bubbleWidth = 180; // Ancho de la burbuja (más grande para mayor dificultad)
         const screenWidth = window.innerWidth;
         const maxX = screenWidth - bubbleWidth;
 
@@ -20,7 +21,7 @@ const Pop = () => {
         const bubble = {
             id: Date.now(),
             x: Math.random() * maxX, // Genera una posición dentro del ancho de la pantalla
-            y: -150,
+            y: -180, // Ajustar el inicio para el nuevo tamaño
             className: bubbleClass
         };
         setBubbles((prevBubbles) => [...prevBubbles, bubble]);
@@ -28,10 +29,10 @@ const Pop = () => {
 
     useEffect(() => {
         if (!gameOver && !gameWon) {
-            const bubbleInterval = setInterval(createBubble, 1000);
+            const bubbleInterval = setInterval(createBubble, 300); // Intervalo reducido para mayor dificultad
             const moveInterval = setInterval(() => {
                 setBubbles((prevBubbles) =>
-                    prevBubbles.map((bubble) => ({ ...bubble, y: bubble.y + 5 }))
+                    prevBubbles.map((bubble) => ({ ...bubble, y: bubble.y + 80 })) // Aumentar la velocidad
                 );
             }, 50);
 
@@ -66,7 +67,7 @@ const Pop = () => {
         setBubbles((prevBubbles) => prevBubbles.filter((bubble) => bubble.id !== id));
         setScore((prevScore) => {
             const newScore = prevScore + 1;
-            if (newScore >= 50) {
+            if (newScore >= 75) { // Aumentar el objetivo para ganar
                 setGameWon(true);
             }
             return newScore;
@@ -84,18 +85,19 @@ const Pop = () => {
 
     return (
         <div className="game-container">
+            <Navbar /> {/* Añade el Navbar aquí */}
             <h1>PopIt</h1>
             <p>Puntaje: {score}</p>
             {gameOver && (
                 <div className="message-container">
-                    <p className="message">Se te escapo una burbuja!</p>
+                    <p className="message">Se escapó una burbuja!</p>
                     <p className="message">Burbujas explotadas: {bubblesPressed}</p>
                     <button className="start-btn" onClick={resetGame}>Reiniciar</button>
                 </div>
             )}
             {gameWon && (
                 <div className="message-container">
-                    <p className="message">Has ganado!</p>
+                    <p className="message">¡Ganaste!</p>
                     <p className="message">Burbujas explotadas: {bubblesPressed}</p>
                     <button className="start-btn" onClick={resetGame}>Reiniciar</button>
                 </div>

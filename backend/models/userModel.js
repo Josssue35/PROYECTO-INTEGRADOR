@@ -2,8 +2,8 @@ const pool = require('./db');
 const bcrypt = require('bcryptjs');
 
 // Crear un nuevo usuario
-async function createUser(username, email, password) {
-  console.log('Creating user with:', { username, email, password });
+async function createUser(username, email, password, role = 'user') {
+  console.log('Creating user with:', { username, email, password, role });
 
   if (!username || !email || !password) {
     throw new Error('All fields (username, email, password) are required');
@@ -13,8 +13,8 @@ async function createUser(username, email, password) {
 
   try {
     const newUser = await pool.query(
-      'INSERT INTO users (username, email, password) VALUES ($1, $2, $3) RETURNING id, username',
-      [username, email, hashedPassword]
+      'INSERT INTO users (username, email, password, role) VALUES ($1, $2, $3, $4) RETURNING id, username, role',
+      [username, email, hashedPassword, role]
     );
     return newUser.rows[0];
   } catch (error) {
@@ -31,14 +31,18 @@ async function findUser(username, password) {
 
   try {
     const user = await pool.query(
-      'SELECT id, username, password FROM users WHERE username = $1',
+      'SELECT id, username, password, role FROM users WHERE username = $1',
       [username]
     );
 
     if (user.rows.length > 0) {
       const isValid = await bcrypt.compare(password, user.rows[0].password);
       if (isValid) {
-        return { id: user.rows[0].id, username: user.rows[0].username };
+        return {
+          id: user.rows[0].id,
+          username: user.rows[0].username,
+          role: user.rows[0].role
+        };
       }
     }
     return null;

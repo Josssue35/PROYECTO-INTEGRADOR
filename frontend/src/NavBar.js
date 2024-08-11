@@ -1,8 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './NavBar.css'; // Asegúrate de crear este archivo CSS
+import './NavBar.css';
 
-const Navbar = () => {
+const NavBar = () => {
+    const userRole = localStorage.getItem('userRole');
+    console.log('User Role:', userRole);
     return (
         <nav className="navbar">
             <div className="navbar-logo">
@@ -13,9 +15,13 @@ const Navbar = () => {
             <div className="navbar-links">
                 <Link to="/game" className="nav-link">Clickalm</Link>
                 <Link to="/pop" className="nav-link">Popit</Link>
+                <Link to="/scores" className="nav-link">Ranking</Link>
+                {userRole === 'admin' && (
+                    <Link to="/admin" className="nav-link admin-link">Admin</Link>
+                )}
             </div>
         </nav>
     );
 };
 
-export default Navbar;
+export default NavBar;

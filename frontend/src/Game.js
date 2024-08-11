@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './Game.css';
-import Navbar from './NavBar'; // Asegúrate de ajustar la ruta si es diferente
+import Navbar from './NavBar';
 
 const Game = () => {
   const [score, setScore] = useState(0);
@@ -14,8 +16,8 @@ const Game = () => {
   const [gameStarted, setGameStarted] = useState(false);
   const [gameEnded, setGameEnded] = useState(false);
 
-  // ID del usuario (puedes cambiar esto según cómo obtienes el ID del usuario en tu aplicación)
-  const userId = 11; // Cambia esto al ID real del usuario
+  // Retrieve the user ID from local storage
+  const userId = localStorage.getItem('userId');
 
   const getRandomKey = () => {
     const keys = 'abcdefghijklmnopqrstuvwxyz0123456789';
@@ -102,7 +104,7 @@ const Game = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          user_id: userId, // Usa el ID del usuario del contexto
+          user_id: userId,
           points: score,
         }),
       });
@@ -111,6 +113,19 @@ const Game = () => {
       }
       const data = await response.json();
       console.log('Score saved:', data);
+
+      // Configuración personalizada para el toast sin el icono de check
+      toast.success('¡Puntaje Guardado!', {
+        position: 'top-right',
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        className: 'custom-toast', // Clase personalizada
+        closeButton: false,
+      });
     } catch (error) {
       console.error('Error saving score:', error);
     }
@@ -119,9 +134,10 @@ const Game = () => {
   if (!gameStarted && !gameEnded) {
     return (
       <div className="game-container">
-        <Navbar /> {/* Añade el Navbar aquí */}
-        <img src={`${process.env.PUBLIC_URL}/clickalm.png`} alt="Clickalm" style={{ width: '800px' }} />
+        <Navbar />
+        <img src={`${process.env.PUBLIC_URL}/Pulpo.jpeg`} alt="Clickalm" style={{ width: '350px', height: '500px' }} />
         <button onClick={startNewGame}>Iniciar Juego</button>
+        <ToastContainer />
       </div>
     );
   }
@@ -129,18 +145,19 @@ const Game = () => {
   if (gameEnded) {
     return (
       <div className="game-container">
-        <Navbar /> {/* Añade el Navbar aquí */}
+        <Navbar />
         <h1>¡Juego terminado!</h1>
         <p>Tu puntaje total es {score}.</p>
         <button onClick={startNewGame}>Iniciar Nueva Partida</button>
         <button onClick={saveScore}>Guardar Puntaje</button>
+        <ToastContainer />
       </div>
     );
   }
 
   return (
     <div className="game-container">
-      <Navbar /> {/* Añade el Navbar aquí */}
+      <Navbar />
       <h1>Clickalm</h1>
       <div className="instruction-container">
         <p className="instruction">
@@ -166,6 +183,7 @@ const Game = () => {
           <p>Clics Restantes: <span>{target - clicks}</span></p>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };
