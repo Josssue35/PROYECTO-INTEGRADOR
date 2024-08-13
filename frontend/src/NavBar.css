@@ -1,0 +1,58 @@
+/* Navbar.css */
+.navbar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px 30px;
+    background-color: rgba(47, 50, 60, 0.241);
+    color: #fff;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    border-radius: 0;
+    /* Remueve el borde redondeado para hacerla rectangular */
+    box-sizing: border-box;
+    /* Asegura que el padding no afecte el ancho total */
+}
+
+.navbar-logo {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    /* Centra verticalmente el logo */
+}
+
+.logo {
+    height: 50px;
+    /* Ajusta el tamaño del logo */
+}
+
+.navbar-links {
+    display: flex;
+    gap: 30px;
+}
+
+.nav-link {
+    color: #fff;
+    text-decoration: none;
+    font-size: 18px;
+    transition: color 0.3s;
+}
+
+.nav-link:hover {
+    color: #ff4a4a;
+    /* Cambia el color del texto al pasar el ratón sobre el enlace */
+}
+
+/* Estilo para el enlace visible solo para administradores */
+.admin-link {
+    color: #f8d7da;
+    /* Color distintivo para el enlace de admin */
+}
+
+.admin-link:hover {
+    color: #ff4a4a;
+    /* Cambia el color del texto al pasar el ratón sobre el enlace */
+}

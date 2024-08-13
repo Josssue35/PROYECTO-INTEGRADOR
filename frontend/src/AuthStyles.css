@@ -1,0 +1,162 @@
+:root {
+  --primary-color: #ff416c;
+  /* Rojo */
+  --secondary-color: #900c3f;
+  /* Rojo oscuro */
+  --background-color: #0c0c0c;
+  /* Negro */
+  --text-color: #ffffff;
+  /* Blanco */
+  --font-family: 'Arial', sans-serif;
+  /* Fuente */
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-family);
+  background-color: var(--background-color);
+  color: var(--text-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.auth-container {
+  display: flex;
+  width: 80%;
+  /* Ajusta según necesidades */
+  height: 60%;
+  /* Ajusta según necesidades */
+  align-items: center;
+  /* Centra verticalmente */
+}
+
+.logo-container {
+  width: 60%;
+  /* 60% del contenedor total para el logo */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-container {
+  width: 40%;
+  /* 40% del contenedor total para el formulario */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 20px;
+}
+
+.auth-container img {
+  width: 100%;
+  /* Ajusta este valor para controlar el tamaño de la imagen */
+  height: auto;
+}
+
+input,
+button {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: none;
+  font-size: 16px;
+}
+
+button {
+  background-color: var(--primary-color);
+  color: var(--text-color);
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #ff6384;
+  /* Rojo más claro para hover */
+}
+
+button:nth-of-type(2) {
+  background-color: var(--secondary-color);
+  /* Rojo oscuro para el segundo botón */
+}
+
+button:nth-of-type(2):hover {
+  background-color: #c70039;
+  /* Rojo más claro para hover del segundo botón */
+}
+
+.scores-container {
+  text-align: center;
+  color: var(--text-color);
+  font-family: 'Arial', sans-serif;
+  background-color: var(--background-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.scores-logo {
+  width: 350px;
+  height: 500px;
+  margin-bottom: 20px;
+  display: block;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  max-width: 600px;
+}
+
+.score-item {
+  background-color: #16213e;
+  color: #ffffff;
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.username,
+.points {
+  font-size: 1.2rem;
+}
+
+.username {
+  font-weight: bold;
+}
+
+.points {
+  font-weight: lighter;
+}
+
+.custom-toast {
+  background-color: #ffffff !important;
+  color: #333 !important;
+  border-left: 5px solid orange !important;
+  /* Barra de color naranja */
+  display: flex;
+  align-items: center;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+}
+
+.custom-toast-success {
+  border-left: 5px solid #28a745 !important;
+  /* Barra verde para éxito */
+}
+
+.custom-toast-error {
+  border-left: 5px solid red !important;
+  /* Barra roja para error */
+}

@@ -1,0 +1,85 @@
+@keyframes bubbleRise {
+    0% {
+        bottom: -150px;
+        opacity: 1;
+    }
+
+    100% {
+        bottom: 100vh;
+        opacity: 0;
+    }
+}
+
+
+
+.bubble {
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 50%;
+    box-shadow: inset 0 0 10px #fff, inset -10px 10px 15px #020131,
+        inset 5px 5px 10px #012196, inset -5px 5px 20px #fff,
+        inset 15px -25px 20px #24bbed;
+    pointer-events: all;
+    animation: bubbleRise 5s linear forwards;
+}
+
+.message-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(2, 4, 98, 0.405);
+    padding: 20px;
+    border-radius: 10px;
+    z-index: 1000;
+    /* Asegura que esté por encima de otras cosas */
+}
+
+.message {
+    color: #fff;
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+/* Resto del CSS */
+button.start-btn {
+    font-size: 20px;
+    border: none;
+    border-radius: 30px;
+    font-weight: bold;
+    height: 40px;
+    width: 150px;
+    margin: 8px auto;
+    cursor: pointer;
+    background-color: #007bff;
+    color: #fff;
+    z-index: 1001;
+    /* Asegura que esté clickeable */
+}
+
+.bubble-container {
+    position: relative;
+    width: 100vw;
+    height: 80vh;
+    /* Ajusta la altura si es necesario */
+    overflow: hidden;
+    /* Asegura que las burbujas no se salgan del contenedor */
+}
+
+.game-container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+/* Mismos estilos anteriores */
