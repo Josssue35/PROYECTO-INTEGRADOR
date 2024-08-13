@@ -6,6 +6,7 @@ import Register from './Register';
 import Scores from './Scores';
 import GamePage from './GamePage';
 import Pop from './Pop';
+import Admin from './Admin';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/scores" element={<Scores />} />
           <Route path="/main" element={<GamePage />} />
           <Route path="/pop" element={<Pop />} />
+          <Route path='admin' element={<Admin />} />
         </Routes>
       </div>
     </Router>

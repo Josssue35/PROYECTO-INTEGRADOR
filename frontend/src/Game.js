@@ -98,7 +98,7 @@ const Game = () => {
 
   const saveScore = async () => {
     try {
-      const response = await fetch('http://localhost:3000/api/scores', {
+      const response = await fetch('http://localhost:3000/api/scoreskalm', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -123,7 +123,7 @@ const Game = () => {
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-        className: 'custom-toast', // Clase personalizada
+        className: 'custom-toast1', // Clase personalizada
         closeButton: false,
       });
     } catch (error) {

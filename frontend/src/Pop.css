@@ -10,8 +10,6 @@
     }
 }
 
-
-
 .bubble {
     position: absolute;
     width: 150px;
@@ -39,8 +37,11 @@
     padding: 20px;
     border-radius: 10px;
     z-index: 1000;
-    /* Asegura que esté por encima de otras cosas */
+    text-align: center;
+    width: 80%;
+    max-width: 400px;
 }
+
 
 .message {
     color: #fff;
@@ -48,21 +49,28 @@
     margin-bottom: 10px;
 }
 
-/* Resto del CSS */
 button.start-btn {
-    font-size: 20px;
+    font-size: 18px;
     border: none;
-    border-radius: 30px;
+    border-radius: 20px;
     font-weight: bold;
-    height: 40px;
-    width: 150px;
-    margin: 8px auto;
+    padding: 10px 20px;
     cursor: pointer;
     background-color: #007bff;
     color: #fff;
-    z-index: 1001;
-    /* Asegura que esté clickeable */
+    transition: background-color 0.3s ease;
+    margin: 10px auto;
+    width: 100%;
+    /* Para asegurarte de que el botón ocupe el ancho completo disponible */
+    max-width: 200px;
+    /* Define un ancho máximo para que el botón no sea demasiado grande */
+    display: block;
+    /* Esto asegurará que el botón se centre si no está utilizando flexbox */
+    text-align: center;
+    white-space: nowrap;
+    /* Evita que el texto se divida en varias líneas */
 }
+
 
 .bubble-container {
     position: relative;
@@ -82,4 +90,41 @@ button.start-btn {
     flex-direction: column;
 }
 
-/* Mismos estilos anteriores */
+/* Estilo personalizado para el Toast (Notificación) */
+.custom-toast2 {
+    background-color: #ffffff !important;
+    color: #333 !important;
+    border-left: 5px solid #28a745 !important;
+    display: flex;
+    align-items: center;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+}
+
+/* Estilo para el botón de Guardar Puntaje */
+button.save-score-btn {
+    font-size: 18px;
+    border: none;
+    border-radius: 20px;
+    font-weight: bold;
+    padding: 10px 20px;
+    cursor: pointer;
+    background-color: #28a745;
+    color: white;
+    transition: background-color 0.3s ease;
+    margin: 10px auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    white-space: nowrap;
+}
+
+button.start-btn:hover {
+    background-color: #0056b3;
+}
+
+button.start-btn:disabled {
+    background-color: grey;
+    cursor: not-allowed;
+}

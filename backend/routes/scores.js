@@ -7,7 +7,7 @@ const pool = require('../models/db');
 router.get('/', async (req, res) => {
   try {
     const result = await pool.query(
-      'SELECT users.username, scores.points FROM scores JOIN users ON scores.user_id = users.id ORDER BY scores.points DESC LIMIT 5'
+      'SELECT users.username, scoreskalm.points FROM scoreskalm JOIN users ON scoreskalm.user_id = users.id ORDER BY scoreskalm.points DESC LIMIT 5'
     );
     res.json(result.rows);
   } catch (err) {
@@ -21,7 +21,7 @@ router.get('/', async (req, res) => {
 router.post('/', async (req, res) => {
   const { user_id, points } = req.body;
   try {
-    const result = await pool.query('INSERT INTO scores (user_id, points) VALUES ($1, $2) RETURNING *', [user_id, points]);
+    const result = await pool.query('INSERT INTO scoreskalm (user_id, points) VALUES ($1, $2) RETURNING *', [user_id, points]);
     res.json(result.rows[0]);
   } catch (err) {
     console.error("Error saving score:", err.message);
