@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import './Scores.css';
-import ParticlesComponent from './particles'; // Verifica la ruta
-import Navbar from './NavBar'; // Verifica la ruta del Navbar
+import ParticlesComponent from './particles';
+import Navbar from './NavBar';
 
 const Scores = () => {
-  const [scores, setScores] = useState([]);
+  const [scoreskalm, setScores] = useState([]);
   const [additionalScores, setAdditionalScores] = useState([]);
 
   useEffect(() => {
     const fetchScores = async () => {
       try {
-        const response = await fetch('http://localhost:3001/api/scores');
+        const response = await fetch('http://localhost:3001/api/scoreskalm');
         const data = await response.json();
         setScores(data);
       } catch (error) {
@@ -18,9 +18,9 @@ const Scores = () => {
       }
     };
 
-    const fetchAdditionalScores = async () => {
+    const fetchScoresPop = async () => {
       try {
-        const response = await fetch('http://localhost:3001/api/scores');
+        const response = await fetch('http://localhost:3001/api/scorespop');
         const data = await response.json();
         setAdditionalScores(data);
       } catch (error) {
@@ -29,13 +29,13 @@ const Scores = () => {
     };
 
     fetchScores();
-    fetchAdditionalScores();
+    fetchScoresPop();
   }, []);
 
   return (
     <div className="scores-page">
       <ParticlesComponent />
-      <Navbar /> {/* Añade el Navbar aquí */}
+      <Navbar />
       <div className="ranking-container">
         <div className="ranking-section">
           <div className="image-container">
@@ -44,7 +44,7 @@ const Scores = () => {
           <div className="scores-list">
             <h1>Ranking ClicKalm</h1>
             <ul>
-              {scores.map((score, index) => (
+              {scoreskalm.map((score, index) => (
                 <li key={index} className="score-item">
                   <span className="username">{score.username}</span>
                   <span className="points">{score.points}</span>

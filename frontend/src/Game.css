@@ -118,7 +118,7 @@ button:focus {
   box-shadow: 0 0 0 2px var(--primary-color);
 }
 
-.custom-toast {
+.custom-toast1 {
   background-color: #ffffff !important;
   color: #333 !important;
   border-left: 5px solid #28a745 !important;
