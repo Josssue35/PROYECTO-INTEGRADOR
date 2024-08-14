@@ -15,6 +15,8 @@ const Game = () => {
   const [timeLeft, setTimeLeft] = useState(15);
   const [gameStarted, setGameStarted] = useState(false);
   const [gameEnded, setGameEnded] = useState(false);
+  const [startTime, setStartTime] = useState(null); // Estado para el tiempo de inicio
+  const [gameDuration, setGameDuration] = useState(null); // Estado para la duración del juego
 
   // Retrieve the user ID from local storage
   const userId = localStorage.getItem('userId');
@@ -34,6 +36,7 @@ const Game = () => {
       setKeyToPress(getRandomKey());
     }
     setTimeLeft(15);
+    setStartTime(new Date()); // Establecer el tiempo de inicio cuando el juego se inicializa
   }, []);
 
   const startNewGame = useCallback(() => {
@@ -54,11 +57,12 @@ const Game = () => {
     if (timeLeft > 0 && gameStarted) {
       timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
     } else if (timeLeft === 0 && gameStarted) {
-      setGameStarted(false);
       setGameEnded(true);
+      setGameStarted(false);
+      setGameDuration((new Date() - startTime) / 1000); // Calcular la duración al finalizar el juego
     }
     return () => clearTimeout(timer);
-  }, [timeLeft, gameStarted]);
+  }, [timeLeft, gameStarted, startTime]);
 
   useEffect(() => {
     const handleKeyPress = (e) => {
@@ -106,6 +110,7 @@ const Game = () => {
         body: JSON.stringify({
           user_id: userId,
           points: score,
+          duration: gameDuration // Incluir la duración del juego en la solicitud de guardado
         }),
       });
       if (!response.ok) {
@@ -154,7 +159,6 @@ const Game = () => {
       </div>
     );
   }
-
   return (
     <div className="game-container">
       <Navbar />
@@ -187,5 +191,4 @@ const Game = () => {
     </div>
   );
 };
-
 export default Game;

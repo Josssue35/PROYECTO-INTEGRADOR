@@ -8,6 +8,8 @@ const countryRoutes = require('./routes/countries');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const backupRouter = require('./routes/backup'); 
+app.use('/api/backup', backupRouter);
 
 app.use(cors());
 app.use(express.json());
