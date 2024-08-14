@@ -1,5 +1,68 @@
 /* Admin.css */
 
+/* Estilos globales para asegurarse de que el body ocupe todo el ancho de la pantalla */
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    /* Previene el scroll horizontal */
+}
+
+/* Estilos para la página de Admin */
+.admin-page {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100vw;
+    /* Asegura que el contenedor ocupe todo el ancho de la pantalla */
+    box-sizing: border-box;
+}
+
+/* Estilos para la navbar */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    /* Ajusta la altura de la navbar */
+    background-color: #3333335a;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    box-sizing: border-box;
+    z-index: 1000;
+    /* Asegura que la navbar esté encima de otros elementos */
+}
+
+/* Contenedor principal para el contenido de Admin */
+.admin-content {
+    margin-top: 60px;
+    /* Ajusta el margen superior para evitar superposición con la navbar */
+    flex: 1;
+    /* Permite que el contenido ocupe el espacio restante */
+    overflow-y: auto;
+    box-sizing: border-box;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    /* Centra el contenido horizontalmente */
+}
+
+/* Contenedor de Admin con un ancho máximo */
+.admin-container {
+    width: 100%;
+    max-width: 1200px;
+    /* Ajusta el ancho máximo según sea necesario */
+    padding: 20px;
+    box-sizing: border-box;
+    margin: 0 auto;
+    /* Centra el contenedor horizontalmente */
+}
+
 /* Estilos para las notificaciones personalizadas */
 .custom-toast1 {
     background-color: #ffffff !important;
@@ -16,17 +79,7 @@
     /* Asegúrate de que las notificaciones estén encima de otros elementos */
 }
 
-/* Otros estilos de Admin */
-.admin-container {
-    padding: 20px;
-    height: 100vh;
-    /* Asegura que el contenedor ocupe toda la altura de la ventana */
-    overflow-y: auto;
-    /* Activa el scroll vertical si el contenido excede la altura */
-    box-sizing: border-box;
-    /* Incluye padding y border en el cálculo del alto */
-}
-
+/* Estilos para el formulario */
 .admin-form {
     margin-bottom: 20px;
 }
@@ -36,7 +89,6 @@
     margin: 5px 0;
     padding: 10px;
     width: calc(100% - 22px);
-    /* Ajusta el ancho para que quepa en el contenedor */
     border: 1px solid #ddd;
     border-radius: 4px;
 }
@@ -55,9 +107,9 @@
     background-color: #0056b3;
 }
 
+/* Estilos para la tabla */
 .admin-table-container {
     margin-top: 20px;
-    /* Añade margen superior si es necesario */
 }
 
 .admin-table {
