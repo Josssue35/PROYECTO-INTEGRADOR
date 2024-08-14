@@ -2,22 +2,22 @@ const pool = require('./db');
 const bcrypt = require('bcryptjs');
 
 // Crear un nuevo usuario
-async function createUser(username, email, password, role = 'user') {
-  if (!username || !email || !password) {
-    throw new Error('All fields (username, email, password) are required');
+async function createUser(username, email, password, fullname, countryId, role = 'user') {
+  if (!username || !email || !password || !fullname || !countryId) {
+    throw new Error('Todos los campos (username, email, password, fullname, countryId) son requeridos');
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
 
   try {
     const newUser = await pool.query(
-      'INSERT INTO users (username, email, password, role) VALUES ($1, $2, $3, $4) RETURNING id, username, email, role, created_at',
-      [username, email, hashedPassword, role]
+      'INSERT INTO users (username, email, password, full_name, country_id, role) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id, username, email, full_name, country_id, role',
+      [username, email, hashedPassword, fullname, countryId, role]
     );
     return newUser.rows[0];
   } catch (error) {
-    console.error('Error creating user:', error);
-    throw new Error('Database error during user creation');
+    console.error('Error creando el usuario:', error);
+    throw new Error('Error en la base de datos durante la creación del usuario');
   }
 }
 
@@ -28,18 +28,19 @@ async function findUser(username, password) {
   }
 
   try {
-    const user = await pool.query(
+    const result = await pool.query(
       'SELECT id, username, password, role FROM users WHERE username = $1',
       [username]
     );
 
-    if (user.rows.length > 0) {
-      const isValid = await bcrypt.compare(password, user.rows[0].password);
+    if (result.rows.length > 0) {
+      const user = result.rows[0];
+      const isValid = await bcrypt.compare(password, user.password);
       if (isValid) {
         return {
-          id: user.rows[0].id,
-          username: user.rows[0].username,
-          role: user.rows[0].role
+          id: user.id,
+          username: user.username,
+          role: user.role
         };
       }
     }
@@ -53,7 +54,8 @@ async function findUser(username, password) {
 // Obtener todos los usuarios
 async function getAllUsers() {
   try {
-    const result = await pool.query('SELECT id, username, email, created_at, role FROM users');
+    const result = await pool.query('SELECT id, username, email, full_name, country_id, role FROM users');
+    console.log('Users retrieved from database:', result.rows); // Depuración
     return result.rows;
   } catch (error) {
     console.error('Error retrieving users:', error);
@@ -62,31 +64,30 @@ async function getAllUsers() {
 }
 
 // Actualizar un usuario
-async function updateUser(id, username, email, password, role) {
-  if (!id || !username || !email || !role) {
-    throw new Error('ID, username, email, and role are required');
+async function updateUser(id, username, email, password, fullname, countryId, role) {
+  if (!id || !username || !email || !fullname || !countryId || !role) {
+    throw new Error('ID, username, email, fullname, country_id, y role son requeridos');
   }
 
-  const queryParams = [username, email, role, id];
+  let queryParams = [username, email, fullname, countryId, role, id];
   let updateQuery = `
     UPDATE users
-    SET username = $1, email = $2, role = $3`;
+    SET username = $1, email = $2, full_name = $3, country_id = $4, role = $5`;
 
-  // Solo incluye el campo `password` en la consulta si se proporciona un nuevo password
   if (password) {
     const hashedPassword = await bcrypt.hash(password, 10);
-    updateQuery += `, password = $4`;
-    queryParams.splice(3, 0, hashedPassword); // Inserta el password hasheado en la posición correcta
+    updateQuery += `, password = $6`;
+    queryParams = [username, email, fullname, countryId, role, hashedPassword, id];
   }
 
-  updateQuery += ` WHERE id = $${queryParams.length} RETURNING id, username, email, role`;
+  updateQuery += ` WHERE id = $${queryParams.length} RETURNING id, username, email, full_name, country_id, role`;
 
   try {
     const result = await pool.query(updateQuery, queryParams);
     return result.rows[0];
   } catch (error) {
-    console.error('Error updating user:', error);
-    throw new Error('Database error during user update');
+    console.error('Error actualizando el usuario:', error);
+    throw new Error('Error en la base de datos durante la actualización del usuario');
   }
 }
 

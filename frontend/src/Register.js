@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -9,7 +9,25 @@ const Register = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [fullName, setFullName] = useState(''); // Añadido para el nombre completo
+  const [countries, setCountries] = useState([]);
+  const [selectedCountry, setSelectedCountry] = useState('');
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // Fetch countries from the API
+    const fetchCountries = async () => {
+      try {
+        const response = await fetch('http://localhost:3000/api/countries');
+        const data = await response.json();
+        setCountries(data);
+      } catch (error) {
+        console.error('Error fetching countries:', error);
+      }
+    };
+
+    fetchCountries();
+  }, []);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -35,7 +53,13 @@ const Register = () => {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ username, email, password })
+        body: JSON.stringify({
+          username,
+          email,
+          password,
+          full_name: fullName,
+          country_id: selectedCountry
+        })
       });
       const data = await response.json();
       if (response.status === 201) {
@@ -55,9 +79,10 @@ const Register = () => {
         });
       }
     } catch (error) {
-      console.error('Registration error:', error);
+      console.error('Error en el registro:', error);
     }
   };
+
 
   return (
     <div className="auth-container">
@@ -90,6 +115,23 @@ const Register = () => {
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
+          <input
+            type="text"
+            placeholder="Full Name" // Campo añadido para nombre completo
+            value={fullName}
+            onChange={(e) => setFullName(e.target.value)}
+          />
+          <select
+            value={selectedCountry}
+            onChange={(e) => setSelectedCountry(e.target.value)}
+          >
+            <option value="">Select Country</option>
+            {countries.map((country) => (
+              <option key={country.id} value={country.id}>
+                {country.name}
+              </option>
+            ))}
+          </select>
           <button type="submit">Registrarse</button>
           <button type="button" onClick={() => navigate('/')}>Ya tengo cuenta</button>
         </form>
